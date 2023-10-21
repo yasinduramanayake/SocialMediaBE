@@ -163,6 +163,8 @@ return [
         /*
          * Application Service Providers...
          */
+
+        Nwidart\Modules\LaravelModulesServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
@@ -182,6 +184,9 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
+
+        'Module' => Nwidart\Modules\Facades\Module::class,
+
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),
 
