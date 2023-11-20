@@ -2,28 +2,56 @@
 
 namespace Modules\ServiceManagement\Http\Controllers;
 
+use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\ServiceManagement\Http\Requests\AddServiceRequest;
+use App\Http\Requests\ScrapingRequest;
+use Modules\ServiceManagement\Repositaries\ServicesManagementInterfaces;
 
 class ServiceManagementController extends Controller
 {
+    protected $repositoryinterface;
+
+    public function __construct(
+        ServicesManagementInterfaces $repositoryinterface
+    ) {
+        $this->repositoryinterface = $repositoryinterface;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('servicemanagement::index');
+        $validatedData = $request->validate([
+            'subcategory_id' => 'required',
+        ]);
+        try {
+            $responseData = $this->repositoryinterface->index(
+                $validatedData
+            );
+            return response()->json(['data' => $responseData], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('servicemanagement::create');
+   
+
+    public function scraper(ScrapingRequest $request) {
+
+        try {
+            $responseData = $this->repositoryinterface->scraper(
+                $request->validated()
+            );
+            return response()->json(['data' => $responseData], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+        
     }
 
     /**
@@ -31,9 +59,16 @@ class ServiceManagementController extends Controller
      * @param Request $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(AddServiceRequest $request)
     {
-        //
+        try {
+            $responseData = $this->repositoryinterface->create(
+                $request->validated()
+            );
+            return response()->json(['data' => $responseData], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**

@@ -33,6 +33,10 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+    public function orders()
+    {
+        return $this->hasMany('Modules\OrderManagement\Entities\Order', 'customer_id');
+    }
     /**
      * The attributes that should be cast.
      *

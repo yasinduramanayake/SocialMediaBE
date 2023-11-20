@@ -1,0 +1,11 @@
+{
+    "name": "SubCategoryManagement",
+    "alias": "subcategorymanagement",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\SubCategoryManagement\\Providers\\SubCategoryManagementServiceProvider"
+    ],
+    "files": []
+}
