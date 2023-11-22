@@ -47,6 +47,8 @@ class ServiceManagementController extends Controller
             $responseData = $this->repositoryinterface->scraper(
                 $request->validated()
             );
+
+            
             return response()->json(['data' => $responseData], 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

@@ -17,6 +17,10 @@ class Order extends Model
         'order_details',
         'status'
     ];
+    protected $casts = [
+        'order_details' => 'json',
+    ];
+
 
     public function user()
     {

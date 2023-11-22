@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('high_quality', 'real_quality')) {
+        if (!Schema::hasColumn('services', 'real_quality')) {
 
             Schema::table('services', function (Blueprint $table) {
                 $table->json('high_quality');

@@ -35,6 +35,7 @@ class SubCategoryObserver
      */
     public function updated(SubCategory $subcategory)
     {
+
     }
     /**
      * Handle the SubCategory "deleted" event.
@@ -44,6 +45,7 @@ class SubCategoryObserver
      */
     public function deleted(SubCategory $subcategory)
     {
+        
     }
     /**
      * Handle the SubCategory "restored" event.

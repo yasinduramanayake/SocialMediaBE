@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('sub_categories', 'image')) {
-            Schema::table('sub_categories', function (Blueprint $table) {  
-                $table->longText('image');
+        if (!Schema::hasColumn( 'orders' , 'reference')) {
+            Schema::table('orders', function (Blueprint $table) {
+                $table->string('reference');
             });
         }
     }

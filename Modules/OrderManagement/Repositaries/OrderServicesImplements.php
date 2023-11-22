@@ -11,9 +11,14 @@ class OrderServicesImplements implements OrderServicesInterfaces
 {
     public function create($data)
     {
-        Order::create($data);
+        $order = new Order();
+        $order->status = 'pending';
+        $order->customer_id = 1;
+        $order->order_details = $data['order_details'];
+        $order->save();
+        // Order::create($data);
 
-        return $data;
+        return $order;
     }
     public function index()
     {

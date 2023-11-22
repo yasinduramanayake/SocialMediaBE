@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->integer('customer_id');
-            $table->longText('order_details');
+            $table->json('order_details');
             $table->string('status');
             $table->foreign('customer_id')->references('id')->on('users');
             $table->timestamps();

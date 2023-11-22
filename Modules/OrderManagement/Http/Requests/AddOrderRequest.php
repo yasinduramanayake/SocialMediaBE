@@ -24,9 +24,7 @@ class AddOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'customer_id' => "required",
             'order_details' =>  "required",
-            'status' =>  "required",
         ];
     }
 }
