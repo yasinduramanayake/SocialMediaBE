@@ -12,7 +12,7 @@ class OrderServicesImplements implements OrderServicesInterfaces
     public function create($data)
     {
         $order = new Order();
-        $order->status = 'pending';
+        $order->status = 'Pending';
         $order->customer_id = 1;
         $order->order_details = $data['order_details'];
         $order->save();

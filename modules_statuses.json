@@ -4,5 +4,6 @@
     "SubCategoryManagement": true,
     "ReviewManagement": true,
     "OrderManagement": true,
-    "UserManagement": true
+    "UserManagement": true,
+    "PaymentManagement": true
 }

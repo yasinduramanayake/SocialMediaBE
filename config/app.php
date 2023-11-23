@@ -163,7 +163,7 @@ return [
         /*
          * Application Service Providers...
          */
-
+        Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
