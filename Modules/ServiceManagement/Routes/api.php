@@ -14,11 +14,18 @@ use Modules\ServiceManagement\Http\Controllers\ServiceManagementController;
 |
 */
 
-Route::middleware('auth:api')->get('/servicemanagement', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/servicemanagement', function (Request $request) {
+//     return $request->user();
+// });
+
+
+Route::group(['middleware' => ['auth:api', 'role:Admin', 'permission:Add SubCategories|Add Categories|Add Services']], function () {
+    Route::post('addservice', [ServiceManagementController::class, 'store']);
+    Route::put('updateceservice/{id}', [ServiceManagementController::class, 'update']);
+    Route::delete('deleteservice/{id}', [ServiceManagementController::class, 'destroy']);
 });
 
 
-Route::post('addservice', [ServiceManagementController::class, 'store']);
+
 Route::post('showservices', [ServiceManagementController::class, 'index']);
 Route::post('getscrapedata', [ServiceManagementController::class, 'scraper']);

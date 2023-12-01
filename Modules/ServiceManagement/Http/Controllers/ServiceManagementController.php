@@ -7,7 +7,9 @@ use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Modules\ServiceManagement\Http\Requests\AddServiceRequest;
+use Modules\ServiceManagement\Http\Requests\UpdateServiceRequest;
 use App\Http\Requests\ScrapingRequest;
+use Modules\ServiceManagement\Entities\Services;
 use Modules\ServiceManagement\Repositaries\ServicesManagementInterfaces;
 
 class ServiceManagementController extends Controller
@@ -39,21 +41,21 @@ class ServiceManagementController extends Controller
         }
     }
 
-   
 
-    public function scraper(ScrapingRequest $request) {
+
+    public function scraper(ScrapingRequest $request)
+    {
 
         try {
             $responseData = $this->repositoryinterface->scraper(
                 $request->validated()
             );
 
-            
+
             return response()->json(['data' => $responseData], 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-        
     }
 
     /**
@@ -73,25 +75,7 @@ class ServiceManagementController extends Controller
         }
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('servicemanagement::show');
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('servicemanagement::edit');
-    }
 
     /**
      * Update the specified resource in storage.
@@ -99,9 +83,14 @@ class ServiceManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Services $id, UpdateServiceRequest $request)
     {
-        //
+        try {
+            $response =  $this->repositoryinterface->update($id, $request->validated());
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -109,8 +98,13 @@ class ServiceManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Services $id)
     {
-        //
+        try {
+            $response =  $this->repositoryinterface->delete($id);
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

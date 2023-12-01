@@ -28,4 +28,12 @@ class OrderServicesImplements implements OrderServicesInterfaces
 
         return  $orders;
     }
+
+    public function changeStatus($data)
+    {
+        $order = Order::where('id', $data['id'])->first();
+        $order->status = $data['status'];
+        $order->save();
+        return $order;
+    }
 }

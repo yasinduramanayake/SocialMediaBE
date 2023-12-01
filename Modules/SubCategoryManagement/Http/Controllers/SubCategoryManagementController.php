@@ -6,8 +6,11 @@ use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\SubCategoryManagement\Entities\SubCategory;
 use Modules\SubCategoryManagement\Repositaries\SubCategoryServicesInterfaces;
 use Modules\SubCategoryManagement\Http\Requests\AddSubCategoryRequest;
+use Modules\SubCategoryManagement\Http\Requests\UpdateSubCategoryRequest;
+
 
 class SubCategoryManagementController extends Controller
 {
@@ -24,7 +27,6 @@ class SubCategoryManagementController extends Controller
      */
     public function index(Request $request)
     {
-
 
         $validatedData = $request->validate([
             'category_id' => 'required'
@@ -79,9 +81,14 @@ class SubCategoryManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(SubCategory $id, UpdateSubCategoryRequest $request)
     {
-        //
+        try {
+            $response =  $this->repositoryinterface->update($id, $request->validated());
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -89,8 +96,13 @@ class SubCategoryManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(SubCategory $id)
     {
-        //
+        try {
+            $response =  $this->repositoryinterface->delete($id);
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

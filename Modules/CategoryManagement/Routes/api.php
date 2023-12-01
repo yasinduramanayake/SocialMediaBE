@@ -15,11 +15,16 @@ use Modules\CategoryManagement\Http\Controllers\CategoryManagementController;
 |
 */
 
-Route::middleware('auth:api')->get('/categorymanagement', function (Request $request) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/categorymanagement', function (Request $request) {
+//     return $request->user();
+// });
+
+Route::group(['middleware' => ['auth:api', 'role:Admin', 'permission:Add Categories']], function () {
+    Route::post('addcategory', [CategoryManagementController::class, 'store']);
+    Route::put('updatececategory/{id}', [CategoryManagementController::class, 'update']);
+    Route::delete('deletecategory/{id}', [CategoryManagementController::class, 'destroy']);
 });
 
 
-Route::post('addcategory', [CategoryManagementController::class, 'store']);
 Route::get('allcategories', [CategoryManagementController::class, 'index']);
 Route::get('allmainservicecategories', [CategoryManagementController::class, 'showMainCategoryServices']);

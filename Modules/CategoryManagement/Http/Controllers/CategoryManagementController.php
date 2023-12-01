@@ -6,8 +6,11 @@ use Exception;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\CategoryManagement\Entities\Category;
 use Modules\CategoryManagement\Repositaries\CategoryServicesInterfaces;
 use Modules\CategoryManagement\Http\Requests\AddCategoryRequest;
+use Modules\CategoryManagement\Http\Requests\UpdateCategoryRequest;
+
 
 class CategoryManagementController extends Controller
 {
@@ -56,25 +59,6 @@ class CategoryManagementController extends Controller
         }
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('categorymanagement::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('categorymanagement::edit');
-    }
 
     /**
      * Update the specified resource in storage.
@@ -82,9 +66,14 @@ class CategoryManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function update(Request $request, $id)
+    public function update(Category $id, UpdateCategoryRequest $request)
     {
-        //
+        try {
+            $response =  $this->repositoryinterface->update($id, $request->validated());
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
@@ -92,8 +81,13 @@ class CategoryManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Category $id)
     {
-        //
+        try {
+            $response =  $this->repositoryinterface->delete($id);
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

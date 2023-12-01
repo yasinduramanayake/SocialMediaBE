@@ -19,5 +19,15 @@ Route::middleware('auth:api')->get('/ordermanagement', function (Request $reques
     return $request->user();
 });
 
-Route::post('addorder', [OrderManagementController::class, 'store']);
-Route::get('allorderss', [OrderManagementController::class, 'index']);
+
+
+
+
+Route::group(['middleware' => ['auth:api', 'role:Admin' , 'permission:View Orders']], function () {
+    Route::get('allorderss', [OrderManagementController::class, 'index']);
+    Route::post('changeorderststus', [OrderManagementController::class, 'changeStatus']);
+});
+
+Route::group(['middleware' => ['auth:api', 'role:User' , 'permission:Add Order']], function () {
+    Route::post('addorder', [OrderManagementController::class, 'store']);
+});

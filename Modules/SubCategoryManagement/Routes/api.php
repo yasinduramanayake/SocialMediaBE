@@ -15,16 +15,19 @@ use Modules\SubCategoryManagement\Http\Controllers\SubCategoryManagementControll
 |
 */
 
-Route::middleware('auth:api')->get('/subcategorymanagement', function (
-    Request $request
-) {
-    return $request->user();
+// Route::middleware('auth:api')->get('/subcategorymanagement', function (
+//     Request $request
+// ) {
+//     return $request->user();
+// });
+Route::group(['middleware' => ['auth:api', 'role:Admin', 'permission:Add SubCategories|Add Categories|Add Services']], function () {
+    Route::post('addsubcategory', [
+        SubCategoryManagementController::class,
+        'store',
+    ]);
+    Route::put('updatesubcategory/{id}', [SubCategoryManagementController::class, 'update']);
+    Route::delete('deletesubcategory/{id}', [SubCategoryManagementController::class, 'destroy']);
 });
-
-Route::post('addsubcategory', [
-    SubCategoryManagementController::class,
-    'store',
-]);
 
 Route::post('showsubcategories', [
     SubCategoryManagementController::class,

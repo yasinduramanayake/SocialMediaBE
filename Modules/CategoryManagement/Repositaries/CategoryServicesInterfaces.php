@@ -1,6 +1,7 @@
 <?php
 
 namespace Modules\CategoryManagement\Repositaries;
+use Modules\CategoryManagement\Entities\Category;
 
 
 interface CategoryServicesInterfaces
@@ -10,4 +11,8 @@ interface CategoryServicesInterfaces
     public function index();
 
     public function showMainCategoryServices();
+
+    public function update($id, $data);
+
+    public function delete($id);
 }

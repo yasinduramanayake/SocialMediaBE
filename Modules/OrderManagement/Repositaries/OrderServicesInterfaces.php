@@ -9,4 +9,6 @@ interface OrderServicesInterfaces
 
     public function index();
 
+    public function changeStatus($data);
+
 }

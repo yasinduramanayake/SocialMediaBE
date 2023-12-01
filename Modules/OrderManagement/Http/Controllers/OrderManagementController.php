@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Exception;
 use Modules\OrderManagement\Repositaries\OrderServicesInterfaces;
 use Modules\OrderManagement\Http\Requests\AddOrderRequest;
+use Modules\OrderManagement\Http\Requests\UpdateOrderStatus;
 
 class OrderManagementController extends Controller
 {
@@ -57,44 +58,16 @@ class OrderManagementController extends Controller
         }
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
-    {
-        return view('ordermanagement::show');
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
+    public function changeStatus(UpdateOrderStatus $request)
     {
-        return view('ordermanagement::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param Request $request
-     * @param int $id
-     * @return Renderable
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @param int $id
-     * @return Renderable
-     */
-    public function destroy($id)
-    {
-        //
+        try {
+            $responseData = $this->repositoryinterface->changeStatus(
+                $request->validated()
+            );
+            return response()->json(['data' => $responseData], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

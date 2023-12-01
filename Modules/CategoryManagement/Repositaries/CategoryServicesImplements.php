@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Storage;
 
 class CategoryServicesImplements implements CategoryServicesInterfaces
 {
+
+    // category store
     public function create($data)
     {
 
@@ -25,6 +27,8 @@ class CategoryServicesImplements implements CategoryServicesInterfaces
 
         return $category;
     }
+
+    // All categories
     public function index()
     {
         $categories = QueryBuilder::for(Category::class)
@@ -35,6 +39,7 @@ class CategoryServicesImplements implements CategoryServicesInterfaces
         return $categories;
     }
 
+    // get  sub categories and categories where sub category is a main type
     public function showMainCategoryServices()
     {
         $categories = Category::query()
@@ -46,5 +51,21 @@ class CategoryServicesImplements implements CategoryServicesInterfaces
             }])
             ->get();
         return  $categories;
+    }
+
+    // category update
+    public function update($id, $data)
+    {
+        $id->update($data);
+
+        return  $data;
+    }
+
+    // category delete
+    public function delete($id)
+    {
+        $status =  $id->delete();
+
+        return  $status;
     }
 }

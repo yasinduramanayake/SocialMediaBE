@@ -41,7 +41,23 @@ class ServicesManagementImplements  implements ServicesManagementInterfaces
             'title' => $web->openGraph['og:title'],
             'image' => $web->openGraph['og:image']
         ];
-        
+
         return $scrapData;
+    }
+
+    // service update
+    public function update($id, $data)
+    {
+        $id->update($data);
+
+        return  $data;
+    }
+
+    // service delete
+    public function delete($id)
+    {
+        $status =  $id->delete();
+
+        return  $status;
     }
 }

@@ -26,4 +26,20 @@ class SubCategoryServicesImplements implements SubCategoryServicesInterfaces
 
         return  $sub_categories;
     }
+
+    // Sub category update
+    public function update($id, $data)
+    {
+        $id->update($data);
+
+        return  $data;
+    }
+
+    // Sub category delete
+    public function delete($id)
+    {
+        $status =  $id->delete();
+
+        return  $status;
+    }
 }

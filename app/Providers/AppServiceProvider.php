@@ -9,7 +9,8 @@ use Modules\CategoryManagement\Repositaries\CategoryServicesImplements;
 use Modules\CategoryManagement\Repositaries\CategoryServicesInterfaces;
 use Modules\ServiceManagement\Repositaries\ServicesManagementImplements;
 use Modules\ServiceManagement\Repositaries\ServicesManagementInterfaces;
-
+use Modules\UserManagement\Repositaries\UserServicesImplements;
+use Modules\UserManagement\Repositaries\UserServicesInterfaces;
 use Modules\OrderManagement\Repositaries\OrderServicesImplements;
 use Modules\OrderManagement\Repositaries\OrderServicesInterfaces;
 use Illuminate\Support\Facades\Schema;
@@ -26,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryServicesInterfaces::class, CategoryServicesImplements::class);
         $this->app->bind(ServicesManagementInterfaces::class, ServicesManagementImplements::class);
         $this->app->bind(OrderServicesInterfaces::class, OrderServicesImplements::class);
+        $this->app->bind(UserServicesInterfaces::class, UserServicesImplements::class);
     }
 
     /**

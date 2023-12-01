@@ -9,4 +9,8 @@ interface ServicesManagementInterfaces
     public function index($data);
 
     public function scraper($data);
+
+    public function update($id, $data);
+
+    public function delete($id);
 }
