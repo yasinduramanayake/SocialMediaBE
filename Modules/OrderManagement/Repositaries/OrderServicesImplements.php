@@ -11,9 +11,13 @@ class OrderServicesImplements implements OrderServicesInterfaces
 {
     public function create($data)
     {
+        $randomNumber = random_int(100000, 999999);
+
+        $user =  auth('api')->user();
         $order = new Order();
+        $order->reference = "RDV-" .   $randomNumber;
         $order->status = 'Pending';
-        $order->customer_id = 1;
+        $order->customer_id = $user->id;
         $order->order_details = $data['order_details'];
         $order->save();
         // Order::create($data);
@@ -34,6 +38,7 @@ class OrderServicesImplements implements OrderServicesInterfaces
         $order = Order::where('id', $data['id'])->first();
         $order->status = $data['status'];
         $order->save();
+        
         return $order;
     }
 }

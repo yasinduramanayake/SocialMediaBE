@@ -43,4 +43,33 @@ class AuthController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+
+    public function profile()
+    {
+        try {
+            $data = [
+                'email' => auth('api')->user()->email,
+                'name' => auth('api')->user()->name,
+                'roles' => auth('api')->user()->rolesWithPermissions()->get(),
+            ];
+            return response()->json(['data' => $data]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function logout()
+    {
+        try {
+            $usertoken = auth('api')->user()->token();
+            $usertoken->revoke();
+            return response([
+                'data' => 'logged out',
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }
