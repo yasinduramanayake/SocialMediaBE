@@ -30,4 +30,5 @@ Route::group(['middleware' => ['auth:api', 'role:Admin' , 'permission:View Order
 
 Route::group(['middleware' => ['auth:api', 'role:User' , 'permission:Add Order']], function () {
     Route::post('addorder', [OrderManagementController::class, 'store']);
+    Route::get('cartorders', [OrderManagementController::class, 'cartOrders']);
 });

@@ -13,7 +13,7 @@ class Paypal
     /**
      * Display a listing of the resource.
      */
-    public function processTrasaction($return_url, $cancel_url)
+    public function processTrasaction($return_url, $cancel_url, $data)
     {
         $provider = new PayPalClient;
         $provider->setApiCredentials(config('paypal'));
@@ -28,7 +28,7 @@ class Paypal
                 0 => [
                     "amount" => [
                         "currency_code" => "USD",
-                        "value" => "1000.00"
+                        "value" => $data['price']
                     ]
                 ]
             ]

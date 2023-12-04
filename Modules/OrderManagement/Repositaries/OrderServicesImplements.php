@@ -38,7 +38,14 @@ class OrderServicesImplements implements OrderServicesInterfaces
         $order = Order::where('id', $data['id'])->first();
         $order->status = $data['status'];
         $order->save();
-        
+
         return $order;
+    }
+
+    public function cartorders()
+    {
+        $user =  auth('api')->user();
+        $cartorders = Order::where('customer_id', $user->id)->get(['reference', 'order_details' , 'status' , 'id']);;
+        return $cartorders;
     }
 }

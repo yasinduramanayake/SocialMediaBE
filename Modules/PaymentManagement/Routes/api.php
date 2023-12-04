@@ -19,4 +19,4 @@ Route::middleware(['auth:sanctum'])->prefix('v1')->name('api.')->group(function 
     Route::get('paymentmanagement', fn (Request $request) => $request->user())->name('paymentmanagement');
 });
 
-Route::get('checkout', [PaymentManagementController::class, 'processTrasaction']);
+Route::post('checkout', [PaymentManagementController::class, 'processTrasaction']);

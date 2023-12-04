@@ -70,4 +70,14 @@ class OrderManagementController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function cartOrders()
+    {
+        try {
+            $responseData = $this->repositoryinterface->cartOrders();
+            return response()->json(['data' => $responseData], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 }

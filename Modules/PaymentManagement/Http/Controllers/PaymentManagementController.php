@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\PaymentGateways\Paypal;
 use Exception;
+use Modules\PaymentManagement\Http\Requests\PayPalRequest;
 
 class PaymentManagementController extends Controller
 {
@@ -22,10 +23,10 @@ class PaymentManagementController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function processTrasaction()
+    public function processTrasaction(PayPalRequest $request)
     {
         try {
-            $responseData  =  $this->paypal->processTrasaction('http://localhost:3000/' , 'http://localhost:3000/');
+            $responseData  =  $this->paypal->processTrasaction('http://localhost:3000/', 'http://localhost:3000/', $request->validated());
             return response()->json(['data' => $responseData], 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
