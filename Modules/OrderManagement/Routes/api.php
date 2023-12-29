@@ -15,20 +15,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/ordermanagement', function (Request $request) {
+Route::middleware('auth:api')->get('/ordermanagement', function (
+    Request $request
+) {
     return $request->user();
 });
 
+Route::group(
+    ['middleware' => ['auth:api', 'role:Admin', 'permission:View Orders']],
+    function () {
+        Route::get('allorderss', [OrderManagementController::class, 'index']);
+        Route::post('changeorderststus', [
+            OrderManagementController::class,
+            'changeStatus',
+        ]);
+    }
+);
+Route::post('addorder', [OrderManagementController::class, 'store']);
 
+Route::post('cartorders', [
+    OrderManagementController::class,
+    'cartOrders',
+]);
+Route::delete('deleteorder/{id}', [
+    OrderManagementController::class,
+    'deleteorder',
+]);
 
-
-
-Route::group(['middleware' => ['auth:api', 'role:Admin' , 'permission:View Orders']], function () {
-    Route::get('allorderss', [OrderManagementController::class, 'index']);
-    Route::post('changeorderststus', [OrderManagementController::class, 'changeStatus']);
-});
-
-Route::group(['middleware' => ['auth:api', 'role:User' , 'permission:Add Order']], function () {
-    Route::post('addorder', [OrderManagementController::class, 'store']);
-    Route::get('cartorders', [OrderManagementController::class, 'cartOrders']);
-});
+Route::post('trackorder', [OrderManagementController::class, 'orderTracking']);

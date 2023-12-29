@@ -4,7 +4,11 @@ namespace App\Providers;
 
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
-use App\Events\OrderCreate;
+use App\Events\CheckoutEvent;
+use App\Listeners\ChangeStatusWithCheckout;
+use App\Events\ChangeStatus;
+use App\Listeners\ChangeDeliveryStatus;
+use App\Listeners\SendDeliveryNotification;
 use App\Listeners\SendOrderCreationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
@@ -16,6 +20,9 @@ use Modules\CategoryManagement\Observers\CategoryObserver;
 use Modules\SubCategoryManagement\Observers\SubCategoryObserver;
 use Modules\ServiceManagement\Observers\ServicesObserver;
 use Modules\OrderManagement\Observers\OrderObserver;
+use Modules\ReviewManagement\Observers\ContactObserver;
+use Modules\ReviewManagement\Entities\contacts;
+
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -28,9 +35,14 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        OrderCreate::class => [
+        CheckoutEvent::class => [
+            ChangeStatusWithCheckout::class,
             SendOrderCreationNotification::class,
         ],
+        ChangeStatus::class => [
+            ChangeDeliveryStatus::class,
+            SendDeliveryNotification::class
+        ]
     ];
 
     /**
@@ -42,6 +54,7 @@ class EventServiceProvider extends ServiceProvider
         SubCategory::observe(SubCategoryObserver::class);
         Services::observe(ServicesObserver::class);
         Order::observe(OrderObserver::class);
+        contacts::observe(ContactObserver::class);
     }
 
     /**

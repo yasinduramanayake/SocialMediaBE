@@ -24,7 +24,7 @@ class PayPalRequest extends FormRequest
     public function rules()
     {
         return [
-            'price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/'
+            'price' => 'required|regex:/^[0-9]+(\.[0-9][0-9]?)?$/',
         ];
     }
 }

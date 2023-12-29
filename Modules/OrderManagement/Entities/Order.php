@@ -15,7 +15,8 @@ class Order extends Model
     protected $fillable = [
         'customer_id',
         'order_details',
-        'status'
+        'status',
+        'tempory_cart_id'
     ];
     protected $casts = [
         'order_details' => 'json',
@@ -24,6 +25,6 @@ class Order extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'id');
+        return $this->belongsTo('Modules\UserManagement\Entities\User', 'customer_id');
     }
 }

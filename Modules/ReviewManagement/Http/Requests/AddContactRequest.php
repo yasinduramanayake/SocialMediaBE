@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\OrderManagement\Http\Requests;
+namespace Modules\ReviewManagement\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AddOrderRequest extends FormRequest
+class AddContactRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,12 @@ class AddOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            'order_details' =>  "required",
-            'randomnumber' => "integer"
+            "first_name" => "required",
+            'last_name' =>  "required",
+            'email' =>  "required",
+            'message' =>  "required",
+            'subject' =>  "required",
+            'file' =>  "file",
         ];
     }
 }

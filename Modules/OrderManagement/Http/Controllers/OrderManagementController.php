@@ -9,6 +9,8 @@ use Exception;
 use Modules\OrderManagement\Repositaries\OrderServicesInterfaces;
 use Modules\OrderManagement\Http\Requests\AddOrderRequest;
 use Modules\OrderManagement\Http\Requests\UpdateOrderStatus;
+use App\Events\ChangeStatus;
+use Modules\OrderManagement\Entities\Order;
 
 class OrderManagementController extends Controller
 {
@@ -61,20 +63,47 @@ class OrderManagementController extends Controller
 
     public function changeStatus(UpdateOrderStatus $request)
     {
+        $data = $request->validated();
         try {
-            $responseData = $this->repositoryinterface->changeStatus(
-                $request->validated()
-            );
+            event(new ChangeStatus($data));
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function cartOrders(Request $request)
+    {
+        $data = $request->input();
+        try {
+            $responseData = $this->repositoryinterface->cartOrders($data);
             return response()->json(['data' => $responseData], 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function cartOrders()
+
+    public function orderTracking(Request $request)
+    {
+        $data = $request->validate([
+            'tracking_number' => 'required'
+        ]);
+        try {
+            $trackingorders = Order::where('finalize_order_id', $data['tracking_number'])->get();
+            return response()->json(['data' => $trackingorders], 200);
+            // if($trackingorders === []){
+
+            // }
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+
+    public function deleteorder(Order $id)
     {
         try {
-            $responseData = $this->repositoryinterface->cartOrders();
+            $responseData  =  $this->repositoryinterface->deleteorder($id);
             return response()->json(['data' => $responseData], 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

@@ -4,21 +4,24 @@ namespace Modules\PaymentManagement\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use App\Events\CheckoutEvent;
+use Modules\PaymentManagement\Repositaries\PaymentServicesInterfaces;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\PaymentGateways\Paypal;
+
 use Exception;
 use Modules\PaymentManagement\Http\Requests\PayPalRequest;
 
 class PaymentManagementController extends Controller
 {
-
     protected $paypal;
+    protected $repositoryinterface;
 
-
-    public function __construct(Paypal $paypalobject)
+    public function __construct(Paypal $paypalobject, PaymentServicesInterfaces $repositoryinterface)
     {
         $this->paypal = $paypalobject;
+        $this->repositoryinterface = $repositoryinterface;
     }
     /**
      * Display a listing of the resource.
@@ -26,8 +29,23 @@ class PaymentManagementController extends Controller
     public function processTrasaction(PayPalRequest $request)
     {
         try {
-            $responseData  =  $this->paypal->processTrasaction('http://localhost:3000/', 'http://localhost:3000/', $request->validated());
+            $this->repositoryinterface->checkout($request->input());
+            $responseData = $this->paypal->processTrasaction(
+                'https://www.ifolo.co/success',
+                'https://www.ifolo.co/',
+                $request->validated()
+            );
             return response()->json(['data' => $responseData], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function successTransaction()
+    {
+        try {
+            $user = auth('api')->user();
+            event(new CheckoutEvent($user));
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

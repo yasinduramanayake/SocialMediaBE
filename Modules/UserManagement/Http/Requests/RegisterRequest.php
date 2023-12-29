@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
             "lastname" => "required",
             "email" => "required|string|email:rfc,dns|unique:users",
             "password" =>  "required|min:6|confirmed",
-            "address" => "required",
+            "address" => "string",
             'view' => 'required'
         ];
     }

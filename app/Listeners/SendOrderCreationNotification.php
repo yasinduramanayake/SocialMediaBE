@@ -2,10 +2,11 @@
 
 namespace App\Listeners;
 
-use App\Events\OrderCreate;
+use App\Events\CheckoutEvent;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Notifications\mailNotifications;
+use Modules\OrderManagement\Entities\Order;
 
 class SendOrderCreationNotification
 {
@@ -20,14 +21,18 @@ class SendOrderCreationNotification
     /**
      * Handle the event.
      */
-    public function handle(OrderCreate $event): void
+    public function handle(CheckoutEvent $event): void
     {
-        $user =  auth('api')->user();
+
+        $cartDetails = Order::where('customer_id', $event->user->id);
+        $cartFilter =   $cartDetails->where('status', 'Pending')->get();
+
         $data = [
             'subject' => 'Order Creation Notification',
-            'greeting' => 'Hello' . ' ' .  $user->firstname . '!',
+            'greeting' => 'Hello' . ' ' .  $event->user->firstname . '!',
             'line1' => 'Your Order Has Been Succesfully Placed.',
-            'line2' => 'Thank you for using our application!'
+            'line2' => 'You Can Track Your Orders Via ' . $cartFilter[0]['finalize_order_id'],
+            'line3' => 'Thank you for using our application!'
         ];
         $event->user->notify(new mailNotifications($data));
     }

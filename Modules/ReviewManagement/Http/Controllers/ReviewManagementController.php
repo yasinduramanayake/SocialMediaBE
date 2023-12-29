@@ -5,56 +5,59 @@ namespace Modules\ReviewManagement\Http\Controllers;
 use Illuminate\Contracts\Support\Renderable;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
+use Modules\ReviewManagement\Repositaries\ReviewServicesInterfaces;
+use Modules\ReviewManagement\Http\Requests\AddReviewRequest;
+use Exception;
+use Modules\ReviewManagement\Http\Requests\AddContactRequest;
 
 class ReviewManagementController extends Controller
 {
+    protected $repositoryinterface;
+
+    public function __construct(ReviewServicesInterfaces $repositoryinterface)
+    {
+        $this->repositoryinterface = $repositoryinterface;
+    }
     /**
      * Display a listing of the resource.
      * @return Renderable
      */
     public function index()
     {
-        return view('reviewmanagement::index');
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     * @return Renderable
-     */
-    public function create()
-    {
-        return view('reviewmanagement::create');
+        try {
+            $responseData  =  $this->repositoryinterface->index();
+            return response()->json(['data' => $responseData], 200);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param Request $request
+     * @param AddReviewRequest $request
      * @return Renderable
      */
-    public function store(Request $request)
+    public function store(AddReviewRequest $request)
     {
-        //
+        try {
+            $response =  $this->repositoryinterface->create($request->validated());
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Show the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function show($id)
+    // add contact us
+    public function addcontact(AddContactRequest $request)
     {
-        return view('reviewmanagement::show');
+        try {
+            $response =  $this->repositoryinterface->addcontact($request->validated());
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     * @param int $id
-     * @return Renderable
-     */
-    public function edit($id)
-    {
-        return view('reviewmanagement::edit');
-    }
 
     /**
      * Update the specified resource in storage.

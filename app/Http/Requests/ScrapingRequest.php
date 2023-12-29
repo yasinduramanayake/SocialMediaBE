@@ -25,6 +25,7 @@ class ScrapingRequest extends FormRequest
     {
         return [
             'username' => "required",
+            'category' => "required"
         ];
     }
 }

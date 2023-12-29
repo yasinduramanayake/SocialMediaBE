@@ -9,8 +9,7 @@ interface OrderServicesInterfaces
 
     public function index();
 
-    public function changeStatus($data);
+    public function cartorders($data);
 
-    public function cartorders();
-
+    public function deleteorder($id);
 }

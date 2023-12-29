@@ -2,9 +2,12 @@
 
 namespace Modules\ServiceManagement\Repositaries;
 
+use Exception;
 use Modules\ServiceManagement\Entities\Services;
 use Modules\ServiceManagement\Repositaries\ServicesManagementInterfaces;
 use Spatie\QueryBuilder\QueryBuilder;
+
+use function PHPUnit\Framework\throwException;
 
 class ServicesManagementImplements  implements ServicesManagementInterfaces
 {
@@ -32,17 +35,22 @@ class ServicesManagementImplements  implements ServicesManagementInterfaces
 
     public function scraper($data)
     {
-        $web = new \Spekulatius\PHPScraper\PHPScraper;
-        $web->go('https://www.instagram.com/' . $data['username'] . '/');
+        if ($data['category'] === "Instagram") {
+            $web = new \Spekulatius\PHPScraper\PHPScraper;
+            $web->setConfig(['proxy' => 'http://user:password@127.0.0.1:3128']);
+            $web->go($data['username']);
 
+            dd($web->title);
+            // $scrapData = [
+            //     'description' => $web->openGraph['og:description'],
+            //     'title' => $web->openGraph['og:title'],
+            //     'image' => $web->openGraph['og:image']
+            // ];
 
-        $scrapData = [
-            'description' => $web->openGraph['og:description'],
-            'title' => $web->openGraph['og:title'],
-            'image' => $web->openGraph['og:image']
-        ];
-
-        return $scrapData;
+            // return $scrapData;
+        } else {
+            throw new Exception('Invalid link service link');
+        }
     }
 
     // service update

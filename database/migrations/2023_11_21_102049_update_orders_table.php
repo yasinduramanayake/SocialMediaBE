@@ -11,9 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        if (!Schema::hasColumn('orders' , 'reference')) {
+        if (!Schema::hasColumn('orders' , 'tempory_cart_id')) {
             Schema::table('orders', function (Blueprint $table) {
-                $table->string('reference');
+                $table->string('tempory_cart_id')->nullable();
             });
         }
     }

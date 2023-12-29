@@ -26,6 +26,7 @@ class UpdateOrderStatus extends FormRequest
         return [
             'id' =>  "required|integer",
             'status' =>  "required",
+
         ];
     }
 }

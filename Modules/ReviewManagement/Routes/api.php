@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use Modules\ReviewManagement\Http\Controllers\ReviewManagementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,8 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/reviewmanagement', function (Request $request) {
-    return $request->user();
-});
+Route::post('addreview', [ReviewManagementController::class, 'store']);
+Route::get('reviews', [ReviewManagementController::class, 'index']);
+
+
+Route::post('addcontactus', [ReviewManagementController::class, 'addcontact']);

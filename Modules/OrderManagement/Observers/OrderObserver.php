@@ -3,7 +3,7 @@
 namespace Modules\OrderManagement\Observers;
 
 use Modules\OrderManagement\Entities\Order;
-use App\Events\OrderCreate;
+
 
 class OrderObserver
 {
@@ -15,8 +15,8 @@ class OrderObserver
      */
     public function creating(Order $order)
     {
-        $user =  auth('api')->user();
-        event(new OrderCreate($user));
+      
+      
     }
     /**
      * Handle the Order "created" event.
