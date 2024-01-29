@@ -8,6 +8,7 @@ use Illuminate\Routing\Controller;
 use Modules\ReviewManagement\Repositaries\ReviewServicesInterfaces;
 use Modules\ReviewManagement\Http\Requests\AddReviewRequest;
 use Exception;
+use Modules\ReviewManagement\Entities\Reviews;
 use Modules\ReviewManagement\Http\Requests\AddContactRequest;
 
 class ReviewManagementController extends Controller
@@ -42,8 +43,8 @@ class ReviewManagementController extends Controller
         try {
             $response =  $this->repositoryinterface->create($request->validated());
             return response()->json(['data' => $response]);
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+        } catch (\ErrorException $e) {
+            return response()->json(['error' => $e->getMessage()]);
         }
     }
 
@@ -75,8 +76,13 @@ class ReviewManagementController extends Controller
      * @param int $id
      * @return Renderable
      */
-    public function destroy($id)
+    public function destroy(Reviews $id)
     {
-        //
+        try {
+            $response =  $this->repositoryinterface->delete($id);
+            return response()->json(['data' => $response]);
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

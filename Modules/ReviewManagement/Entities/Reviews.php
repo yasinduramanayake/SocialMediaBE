@@ -16,6 +16,7 @@ class Reviews extends Model
         'first_name',
         'last_name',
         'rate',
+        'order_id',
         'email',
         'service',
         'review'

@@ -25,6 +25,7 @@ class AddReviewRequest extends FormRequest
     {
         return [
             "service" => "required",
+            "order_id" => "required",
             'first_name' =>  "required",
             'last_name' =>  "required",
             'email' =>  "required",

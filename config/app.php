@@ -163,12 +163,14 @@ return [
         /*
          * Application Service Providers...
          */
+        
         Srmklive\PayPal\Providers\PayPalServiceProvider::class,
         Nwidart\Modules\LaravelModulesServiceProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
+        Laravel\Socialite\SocialiteServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
     ])->toArray(),
 
@@ -186,6 +188,7 @@ return [
     'aliases' => Facade::defaultAliases()->merge([
 
         'Module' => Nwidart\Modules\Facades\Module::class,
+        'Socialite' => Laravel\Socialite\SocialiteServiceProvider::class,
 
         // 'Example' => App\Facades\Example::class,
     ])->toArray(),

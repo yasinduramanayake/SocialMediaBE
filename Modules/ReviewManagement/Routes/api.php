@@ -17,6 +17,7 @@ use Modules\ReviewManagement\Http\Controllers\ReviewManagementController;
 
 Route::post('addreview', [ReviewManagementController::class, 'store']);
 Route::get('reviews', [ReviewManagementController::class, 'index']);
+Route::delete('deletereview/{id}', [ReviewManagementController::class, 'destroy']);
 
 
 Route::post('addcontactus', [ReviewManagementController::class, 'addcontact']);

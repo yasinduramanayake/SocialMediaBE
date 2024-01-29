@@ -21,6 +21,11 @@ use Modules\UserManagement\Http\Controllers\AuthController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
+Route::post('forgot', [AuthController::class, 'forgot']);
+Route::post('reset', [AuthController::class, 'reset']);
+Route::get('getAuthUrl', [AuthController::class, 'googleregister']);
+Route::post('registeruser', [AuthController::class, 'registeruserwithgoogle']);
+
 
 
 Route::group(['middleware' => ['auth:api']], function () {

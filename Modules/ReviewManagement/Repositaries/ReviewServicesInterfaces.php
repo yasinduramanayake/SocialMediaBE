@@ -10,7 +10,8 @@ interface ReviewServicesInterfaces
 
     public function index();
 
-    
     public function addcontact($data);
+
+    public function delete($id);
 
 }

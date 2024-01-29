@@ -1,0 +1,16 @@
+{
+    "web": {
+      "client_id": "60131709563-h13deqkfn4lmuinr83fcm2ctr4ipq9q1.apps.googleusercontent.com",
+      "project_id": "folowsta",
+      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+      "token_uri": "https://oauth2.googleapis.com/token",
+      "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+      "client_secret": "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",
+      "redirect_uris": [
+        "https://followsta.com"
+      ],
+      "javascript_origins": [
+        "https://followsta.com"
+      ]
+    }
+  }

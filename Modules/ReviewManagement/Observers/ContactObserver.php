@@ -21,7 +21,9 @@ class ContactObserver
             'greeting' => 'Hello!',
             'line1' => $contacts->first_name . ' Has Been Submit a Inquiry Reguarding The ' . $contacts->subject,
             'line2' => 'This Is His Message : ' . $contacts->message,
-            'line3' => 'Try To Connect Him/Her Via ' . $contacts->email
+            'line3' => 'Try To Connect Him/Her Via ' . $contacts->email,
+            'line4' => '',
+            'line5' => ''
         ];
         Notification::route('mail', 'httpteen@ifolo.co')->notify(new mailNotifications($data));
     }

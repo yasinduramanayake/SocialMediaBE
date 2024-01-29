@@ -11,6 +11,7 @@ use Illuminate\Http\Response;
 use App\PaymentGateways\Paypal;
 
 use Exception;
+use Modules\OrderManagement\Entities\Order;
 use Modules\PaymentManagement\Http\Requests\PayPalRequest;
 
 class PaymentManagementController extends Controller
@@ -31,8 +32,8 @@ class PaymentManagementController extends Controller
         try {
             $this->repositoryinterface->checkout($request->input());
             $responseData = $this->paypal->processTrasaction(
-                'https://www.ifolo.co/success',
-                'https://www.ifolo.co/',
+                'http://localhost:3000/success',
+                'http://localhost:3000/',
                 $request->validated()
             );
             return response()->json(['data' => $responseData], 200);
@@ -45,7 +46,14 @@ class PaymentManagementController extends Controller
     {
         try {
             $user = auth('api')->user();
+
+
             event(new CheckoutEvent($user));
+            $cartDetails = Order::where('customer_id',  $user->id);
+            $cartFilter = $cartDetails->where('status', 'Pending')->get();
+
+            return response()->json(['data' => $cartFilter[0]['finalize_order_id']]);
+            
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

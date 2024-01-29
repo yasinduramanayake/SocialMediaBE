@@ -40,7 +40,9 @@ class mailNotifications extends Notification
             ->greeting($this->data['greeting'])
             ->line($this->data['line1'])
             ->line($this->data['line2'])
-            ->line($this->data['line3']);
+            ->line($this->data['line3'])
+            ->line($this->data['line4'])
+            ->line($this->data['line5']);
     }
 
     /**
